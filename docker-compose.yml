@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  gcp-status:
+    image: ghcr.io/dazwilkin/gcp-status:67cdec5e09b6c53b3c39dca32ba7f6ca8edf73fa
+    container_name: gcp-status
+    expose:
+      - "8080"
+    ports:
+      - 8080:8080
