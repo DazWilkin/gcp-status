@@ -1,5 +1,7 @@
 # GCP Status Exporter
 
+[![build-container](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml/badge.svg)](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml)
+
 Converts Google's status dashboard into a series of `up` metrics (by services) for Prometheus consumption.
 
 ```console
