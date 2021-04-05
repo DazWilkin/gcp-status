@@ -18,7 +18,7 @@ RUN CGO_ENABLED=0 GOOS=linux \
     -ldflags "-X main.OSVersion=${VERSION} -X main.GitCommit=${COMMIT}" \
     -a -installsuffix cgo \
     -o /go/bin/${PROJECT} \
-    ./main.go
+    .
 
 FROM scratch
 
