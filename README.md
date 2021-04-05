@@ -56,7 +56,7 @@ up{service="Secret Manager"} 1
 ```bash
 docker run \
 --interactive --tty --rm \
-ghcr.io/dazwilkin/gcp-status:67cdec5e09b6c53b3c39dca32ba7f6ca8edf73fa
+ghcr.io/dazwilkin/gcp-status:49ae01e1c02e138033fb9d5a0c938b642889dc24
 ```
 
 ## Notes
