@@ -19,16 +19,17 @@ type StatusCollector struct {
 }
 
 func NewStatusCollector() *StatusCollector {
+	fqName := name("status")
 	return &StatusCollector{
 		Services: prometheus.NewDesc(
-			"services",
+			fqName("services"),
 			"Count of GCP services",
 			[]string{},
 			nil,
 		),
 
 		Up: prometheus.NewDesc(
-			"up",
+			fqName("up"),
 			"Status of GCP service (1=Available; 0=Unavailable)",
 			[]string{
 				"service",
