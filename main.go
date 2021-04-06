@@ -46,6 +46,7 @@ func main() {
 	}
 
 	registry := prometheus.NewRegistry()
+	registry.MustRegister(NewExporterCollector(OSVersion, GoVersion, GitCommit, StartTime))
 	registry.MustRegister(NewStatusCollector())
 
 	mux := http.NewServeMux()
