@@ -1,0 +1,19 @@
+groups:
+  - name: GCPStatus
+    rules:
+      - alert: GCPStatusServices
+        # `15m` matches the prometheus.yml scrape_interval
+        expr: gcp_status_services{} != 41
+        for: 15m
+        labels:
+          severity: page
+        annotations:
+          summary: GCP Status Services availability discrepancy
+      - alert: GCPStatusUp
+        # `15m` matches the prometheus.yml scrape_interval
+        expr: min_over_time(gcp_status_up{}[15m]) != 1.0
+        for: 15m
+        labels:
+          severity: page
+        annotations:
+          summary: GCP Status Service {{ $labels.service }} down
