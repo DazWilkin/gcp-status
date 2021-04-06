@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: List
+metadata: {}
+items:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: gcp-status
+      name: gcp-status
+    spec:
+      selector:
+        app: gcp-status
+      ports:
+        - name: metrics
+          port: 9989
+          targetPort: 9989
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      labels:
+        app: gcp-status
+      name: gcp-status
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: gcp-status
+      template:
+        metadata:
+          labels:
+            app: gcp-status
+        spec:
+          containers:
+            - name: gcp-status
+              image: ghcr.io/dazwilkin/gcp-status:be5308701567385d30ec6d57b54da1dd7b94cd1c
+              ports:
+                - name: metrics
+                  containerPort: 9989
+          restartPolicy: Always
+  - kind: ServiceMonitor
+    apiVersion: monitoring.coreos.com/v1
+    metadata:
+      name: gcp-status
+      labels:
+        app: gcp-status
+    spec:
+      selector:
+        matchLabels:
+          app: gcp-status
+      endpoints:
+        - port: metrics
