@@ -1,0 +1,4 @@
+# Contains secrets
+alertmanager.yml
+kubernetes.alerting.yaml
+
