@@ -2,7 +2,7 @@
 
 [![build-container](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml/badge.svg)](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml)
 
-Converts Google's status dashboard into a series of `up` metrics (by services) for Prometheus consumption.
+Converts Google [Cloud Status Dashboard](https://status.cloud.google.com/) into a series of `up` metrics (by services) for Prometheus consumption.
 
 ```console
 # HELP services Count of GCP services
@@ -55,10 +55,38 @@ up{service="Secret Manager"} 1
 
 ## Run
 
+### Go
+
+```bash
+go run .
+```
+
+### Docker
+
 ```bash
 docker run \
 --interactive --tty --rm \
-ghcr.io/dazwilkin/gcp-status:be5308701567385d30ec6d57b54da1dd7b94cd1c
+ghcr.io/dazwilkin/gcp-status:be5308701567385d30ec6d57b54da1dd7b94cd1c \
+--endpoint=:9989 \
+--path=/metrics
+```
+
+### Docker Compose
+
+```YAML
+gcp-exporter:
+  image: ghcr.io/dazwilkin/gcp-status:be5308701567385d30ec6d57b54da1dd7b94cd1c
+  container_name: gcp-status
+  expose:
+  - "9989" # GCP Status port registered on Prometheus Wiki
+  ports:
+  - 9989:9989
+```
+
+### Kubernetes
+
+```YAML
+
 ```
 
 ## Notes
