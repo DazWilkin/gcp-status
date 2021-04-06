@@ -29,7 +29,7 @@ func NewStatusCollector() *StatusCollector {
 
 		Up: prometheus.NewDesc(
 			"up",
-			"Status of GCP service",
+			"Status of GCP service (1=Available; 0=Unavailable)",
 			[]string{
 				"service",
 			},
