@@ -1,6 +1,8 @@
 # GCP Status Exporter
 
 [![build-container](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml/badge.svg)](https://github.com/DazWilkin/gcp-status/actions/workflows/build-container.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/DazWilkin/gcp-status.svg)](https://pkg.go.dev/github.com/DazWilkin/gcp-status)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dazwilkin/gcp-status)](https://goreportcard.com/report/github.com/dazwilkin/gcp-status)
 
 Converts Google [Cloud Status Dashboard](https://status.cloud.google.com/) into a series of `up` metrics (by services) for Prometheus consumption.
 
