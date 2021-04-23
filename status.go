@@ -11,6 +11,7 @@ import (
 // StatusCollector implements prometheus.Collector
 var _ prometheus.Collector = (*StatusCollector)(nil)
 
+// Status collector represents GCP status dashboard
 type StatusCollector struct {
 	// Prometheus Metric representing the number of GCP services parsed
 	Services *prometheus.Desc
