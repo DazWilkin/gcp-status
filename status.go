@@ -18,6 +18,7 @@ type StatusCollector struct {
 	Up *prometheus.Desc
 }
 
+// NewStatusCollector returns a new StatusCollector
 func NewStatusCollector() *StatusCollector {
 	fqName := name("status")
 	return &StatusCollector{
@@ -38,6 +39,8 @@ func NewStatusCollector() *StatusCollector {
 		),
 	}
 }
+
+// Collect implements Prometheus' Collector interface and is used to collect metrics
 func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 	resp, err := http.Get(dashboard)
 	if err != nil {
@@ -68,6 +71,8 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 	}
 
 }
+
+// Describe implements Prometheus' Collector interface and is used to describe metrics
 func (c *StatusCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.Services
 	ch <- c.Up
