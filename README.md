@@ -7,53 +7,43 @@
 Converts Google [Cloud Status Dashboard](https://status.cloud.google.com/) into a series of `up` metrics (by services) for Prometheus consumption.
 
 ```console
-# HELP services Count of GCP services
-# TYPE services gauge
-services 41
-# HELP up Status of GCP service
-# TYPE up gauge
-up{service="Apigee"} 1
-up{service="Cloud Asset Inventory"} 1
-up{service="Cloud Data Fusion"} 1
-up{service="Cloud Developer Tools"} 1
-up{service="Cloud Endpoints"} 1
-up{service="Cloud Filestore"} 1
-up{service="Cloud Firestore"} 1
-up{service="Cloud Key Management Service"} 1
-up{service="Cloud Machine Learning"} 1
-up{service="Cloud Memorystore"} 1
-up{service="Cloud Run"} 1
-up{service="Cloud Security Command Center"} 1
-up{service="Cloud Spanner"} 1
-up{service="Cloud Talent Solution - Job Search"} 1
-up{service="Cloud Workflows"} 1
-up{service="Eventarc"} 1
-up{service="Google App Engine"} 1
-up{service="Google BigQuery"} 1
-up{service="Google Cloud Bigtable"} 1
-up{service="Google Cloud Composer"} 1
-up{service="Google Cloud Console"} 1
-up{service="Google Cloud DNS"} 1
-up{service="Google Cloud Dataflow"} 1
-up{service="Google Cloud Dataproc"} 1
-up{service="Google Cloud Datastore"} 1
-up{service="Google Cloud Functions"} 1
-up{service="Google Cloud Infrastructure Components"} 1
-up{service="Google Cloud IoT"} 1
-up{service="Google Cloud Networking"} 1
-up{service="Google Cloud Pub/Sub"} 1
-up{service="Google Cloud SQL"} 1
-up{service="Google Cloud Scheduler"} 1
-up{service="Google Cloud Storage"} 1
-up{service="Google Cloud Support"} 1
-up{service="Google Cloud Tasks"} 1
-up{service="Google Compute Engine"} 1
-up{service="Google Kubernetes Engine"} 1
-up{service="Healthcare and Life Sciences"} 1
-up{service="Identity and Access Management"} 1
-up{service="Operations"} 1
-up{service="Secret Manager"} 1
+# HELP gcp_status_build_info A metric with a constant '1' value labeled by OS version, Go version, and the Git commit of the exporter
+# TYPE gcp_status_build_info counter
+gcp_status_build_info{git_commit="",go_version="go1.18",os_version=""} 1
+# HELP gcp_status_services Count of GCP service availability
+# TYPE gcp_status_services gauge
+gcp_status_services{region="Americas"} 94
+gcp_status_services{region="Asia Pacific"} 85
+gcp_status_services{region="Europe"} 95
+gcp_status_services{region="Global"} 61
+gcp_status_services{region="Multi-regions"} 21
+# HELP gcp_status_services_total Count of GCP services
+# TYPE gcp_status_services_total gauge
+gcp_status_services_total 138
+# HELP gcp_status_start_time Exporter start time in Unix epoch seconds
+# TYPE gcp_status_start_time gauge
+gcp_status_start_time 1.659727534e+09
+# HELP gcp_status_up Status of GCP service (1=Available; 0=Unavailable)
+# TYPE gcp_status_up gauge
+gcp_status_up{region="Americas",service="Artifact Registry"} 1
+gcp_status_up{region="Asia Pacific",service="Artifact Registry"} 1
+gcp_status_up{region="Europe",service="Artifact Registry"} 1
+gcp_status_up{region="Multi-regions",service="Artifact Registry"} 1
+gcp_status_up{region="Americas",service="Google Kubernetes Engine"} 1
+gcp_status_up{region="Asia Pacific",service="Google Kubernetes Engine"} 1
+gcp_status_up{region="Europe",service="Google Kubernetes Engine"} 1
 ```
+
+## Metrics
+
+All metric names are prefix `gcp_status_`
+
+|Name|Type|Labels|Description|
+|----|----|------|-----------|
+|`build_info`|Counter|`git_commit`,`go_version`,`os_version`|The status of the Exporter (1=available)|
+|`services`|Gauge|`region`|The count of Google Cloud services by region| 
+|`services_total`|Gauge||The count of Google Cloud services|
+|`up`|Gauge|`region`,`service`|The status of the `service` in the `region` (1=available;0=down)|
 
 ## Run
 

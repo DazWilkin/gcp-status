@@ -4,14 +4,20 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
+const (
+	url string = "https://status.cloud.google.com"
+)
+
 // StatusCollector implements prometheus.Collector
 var _ prometheus.Collector = (*StatusCollector)(nil)
 
 // StatusCollector represents GCP status dashboard
 type StatusCollector struct {
-	// Prometheus Metric representing the number of GCP services parsed
+	// Prometheus Metric representing the number of Google Cloud services available
+	Regions *prometheus.Desc
+	// Prometheus Metric representing the total number of Google Cloud services
 	Services *prometheus.Desc
-	// Prometheus Metric representing the status of each GCP service
+	// Prometheus Metric representing the status of each Google Cloud service
 	Up *prometheus.Desc
 }
 
@@ -20,12 +26,19 @@ func NewStatusCollector() *StatusCollector {
 	fqName := name("status")
 	return &StatusCollector{
 		Services: prometheus.NewDesc(
-			fqName("services"),
+			fqName("services_total"),
 			"Count of GCP services",
 			[]string{},
 			nil,
 		),
-
+		Regions: prometheus.NewDesc(
+			fqName("services"),
+			"Count of GCP service availability",
+			[]string{
+				"region",
+			},
+			nil,
+		),
 		Up: prometheus.NewDesc(
 			fqName("up"),
 			"Status of GCP service (1=Available; 0=Unavailable)",
@@ -40,15 +53,35 @@ func NewStatusCollector() *StatusCollector {
 
 // Collect implements Prometheus' Collector interface and is used to collect metrics
 func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
-	dashboard := Dashboard{}
-	services := dashboard.Parse()
+	dashboard := NewDashboard(url)
+	node, err := dashboard.Open()
+	if err != nil {
+		return
+	}
 
+	services := parse(node)
+
+	// Service totals
 	ch <- prometheus.MustNewConstMetric(
 		c.Services,
 		prometheus.GaugeValue,
 		float64(len(services)),
 		[]string{}...,
 	)
+	// Service counts by region
+	byRegion := services.ByRegion()
+	for r := Americas; r <= Global; r++ {
+		if count, ok := byRegion[r]; ok {
+			ch <- prometheus.MustNewConstMetric(
+				c.Regions,
+				prometheus.GaugeValue,
+				float64(count),
+				[]string{
+					r.String(),
+				}...,
+			)
+		}
+	}
 
 	// Each Google Cloud service
 	for _, service := range services {

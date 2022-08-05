@@ -45,3 +45,17 @@ func NewService(name string) Service {
 		Regions: map[Region]bool{},
 	}
 }
+
+type Services []Service
+
+func (s Services) ByRegion() map[Region]uint16 {
+	count := map[Region]uint16{}
+	for _, s := range s {
+		for r := Americas; r <= Global; r++ {
+			if _, ok := s.Regions[r]; ok {
+				count[r]++
+			}
+		}
+	}
+	return count
+}
