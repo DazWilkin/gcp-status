@@ -45,6 +45,42 @@ All metric names are prefix `gcp_status_`
 |`services_total`|Gauge||The count of Google Cloud services|
 |`up`|Gauge|`region`,`service`|The status of the `service` in the `region` (1=available;0=down)|
 
+## Rules
+
+If the listed Americas-based services are down for 15 minutes as measured in 5-minute chunks
+
+```yaml
+- alert: gcp_status_up_down_americas
+  expr: |
+    min_over_time(
+      gcp_status_up{
+        region="Americas",
+        service=~"Artifact Registry|Google Compute Engine|Google Kubernetes Engine|Cloud Firestore|Google Cloud Functions|Cloud Run|Google Cloud Scheduler"
+      }[5m])<1
+  for: 15m
+  labels:
+    severity: page
+  annotations:
+    summary: GCP Status service {{ $labels.service }} down in {{ $labels.region }}
+```
+
+If the listed Global services are down for 15 minutes as measured in 5-minute chunks
+
+```yaml
+- alert: gcp_status_up_down_global
+  expr: |
+    min_over_time(
+      gcp_status_up{
+        region="Global",
+        service=~"Cloud Endpoints|Cloud Logging|Cloud Monitoring|Cloud Profiler"
+        }[5m])<1
+  for: 15m
+  labels:
+    severity: page
+  annotations:
+    summary: GCP Status service {{ $labels.service }} down in {{ $labels.region }}
+```
+
 ## Run
 
 ### Go
@@ -58,7 +94,7 @@ go run .
 ```bash
 docker run \
 --interactive --tty --rm \
-ghcr.io/dazwilkin/gcp-status:8388a76b911350fa0a37b220f7f9dd7edbd614bb \
+ghcr.io/dazwilkin/gcp-status:fb358c9f3cab26a481ceca9698beea595b9ff459 \
 --endpoint=:9989 \
 --path=/metrics
 ```
@@ -67,22 +103,10 @@ ghcr.io/dazwilkin/gcp-status:8388a76b911350fa0a37b220f7f9dd7edbd614bb \
 
 ```YAML
 gcp-exporter:
-  image: ghcr.io/dazwilkin/gcp-status:8388a76b911350fa0a37b220f7f9dd7edbd614bb
+  image: ghcr.io/dazwilkin/gcp-status:fb358c9f3cab26a481ceca9698beea595b9ff459
   container_name: gcp-status
   expose:
   - "9989" # GCP Status port registered on Prometheus Wiki
   ports:
   - 9989:9989
-```
-
-### Kubernetes
-
-```YAML
-
-```
-
-## Notes
-
-```console
-Array.from(document.getElementsByClassName("service-status")).forEach(e => console.log(`${e.innerText}`))
 ```
