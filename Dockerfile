@@ -3,7 +3,7 @@ ARG GOLANG_OPTIONS="CGO_ENABLED=0 GOOS=linux GOARCH=amd64"
 
 ARG PROJECT="gcp-status"
 
-FROM golang:${GOLANG_VERSION} as build
+FROM docker.io/golang:${GOLANG_VERSION} as build
 
 ARG VERSION=""
 ARG COMMIT=""
