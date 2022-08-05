@@ -1,11 +1,7 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/prometheus/client_golang/prometheus"
-	"golang.org/x/net/html"
 )
 
 // StatusCollector implements prometheus.Collector
@@ -35,6 +31,7 @@ func NewStatusCollector() *StatusCollector {
 			"Status of GCP service (1=Available; 0=Unavailable)",
 			[]string{
 				"service",
+				"region",
 			},
 			nil,
 		),
@@ -43,32 +40,36 @@ func NewStatusCollector() *StatusCollector {
 
 // Collect implements Prometheus' Collector interface and is used to collect metrics
 func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
-	resp, err := http.Get(dashboard)
-	if err != nil {
-		log.Fatal("Unable to GET status dashboard")
-	}
-	// defer resp.Body.Close()
+	dashboard := Dashboard{}
+	services := dashboard.Parse()
 
-	doc, err := html.Parse(resp.Body)
-	if err != nil {
-		log.Fatal("Unable to HTML parse body")
-	}
-	services := extractServices(doc)
 	ch <- prometheus.MustNewConstMetric(
 		c.Services,
 		prometheus.GaugeValue,
 		float64(len(services)),
 		[]string{}...,
 	)
+
+	// Each Google Cloud service
 	for _, service := range services {
-		ch <- prometheus.MustNewConstMetric(
-			c.Up,
-			prometheus.GaugeValue,
-			service.Up,
-			[]string{
-				service.Name,
-			}...,
-		)
+		// Comprises a status for a combination of Google Regions
+		// e.g. Americas, Multi-regions, Global
+		for region, up := range service.Regions {
+			ch <- prometheus.MustNewConstMetric(
+				c.Up,
+				prometheus.GaugeValue,
+				func(up bool) float64 {
+					if up {
+						return 1.0
+					}
+					return 0.0
+				}(up),
+				[]string{
+					service.Name,
+					region.String(),
+				}...,
+			)
+		}
 	}
 
 }

@@ -11,10 +11,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-const (
-	dashboard = "https://status.cloud.google.com"
-)
-
 var (
 	// GitCommit is the git commit value and is expected to be set during build
 	GitCommit string
