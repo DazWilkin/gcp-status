@@ -33,7 +33,7 @@ items:
         spec:
           containers:
             - name: gcp-status
-              image: ghcr.io/dazwilkin/gcp-status:8388a76b911350fa0a37b220f7f9dd7edbd614bb
+              image: ghcr.io/dazwilkin/gcp-status:7abcbb6767a6b429ae3765cbc7b7fc413dffc95b
               ports:
                 - name: metrics
                   containerPort: 9989
