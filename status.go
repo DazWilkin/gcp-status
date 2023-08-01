@@ -104,7 +104,6 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 			)
 		}
 	}
-
 }
 
 // Describe implements Prometheus' Collector interface and is used to describe metrics

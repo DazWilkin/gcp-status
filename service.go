@@ -27,7 +27,6 @@ func (r Region) String() string {
 	default:
 		return "Unknown"
 	}
-
 }
 
 type Regions map[Region]bool
