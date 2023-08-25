@@ -1,6 +1,6 @@
 module github.com/DazWilkin/gcp-status
 
-go 1.20
+go 1.21.0
 
 require (
 	github.com/prometheus/client_golang v1.16.0
@@ -14,7 +14,7 @@ require (
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
-	github.com/prometheus/procfs v0.11.0 // indirect
+	github.com/prometheus/procfs v0.11.1 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
