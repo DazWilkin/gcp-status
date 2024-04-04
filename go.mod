@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/prometheus/client_golang v1.19.0
-	golang.org/x/net v0.22.0
+	golang.org/x/net v0.23.0
 )
 
 require (
