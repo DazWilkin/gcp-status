@@ -49,7 +49,7 @@ services:
       - 9093:9093
 
   gcp-status:
-    image: ghcr.io/dazwilkin/gcp-status:9b6b6635fba2ed9ba7dd1256895bd2518bbf1c4a
+    image: ghcr.io/dazwilkin/gcp-status:8d098fa9d7e8dd19e99a26546f4981711f0394e7
     container_name: gcp-status
     expose:
       - "9989"
