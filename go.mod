@@ -3,7 +3,7 @@ module github.com/DazWilkin/gcp-status
 go 1.21.0
 
 require (
-	github.com/prometheus/client_golang v1.19.0
+	github.com/prometheus/client_golang v1.19.1
 	golang.org/x/net v0.24.0
 )
 
