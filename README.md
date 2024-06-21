@@ -94,7 +94,7 @@ go run .
 ```bash
 docker run \
 --interactive --tty --rm \
-ghcr.io/dazwilkin/gcp-status:c0830425497a3457ec48907ff55284ce86c95e1b \
+ghcr.io/dazwilkin/gcp-status:be886feab3f8b7561edbd21a0d4f433aad0bf9fb \
 --endpoint=:9989 \
 --path=/metrics
 ```
@@ -103,7 +103,7 @@ ghcr.io/dazwilkin/gcp-status:c0830425497a3457ec48907ff55284ce86c95e1b \
 
 ```YAML
 gcp-exporter:
-  image: ghcr.io/dazwilkin/gcp-status:c0830425497a3457ec48907ff55284ce86c95e1b
+  image: ghcr.io/dazwilkin/gcp-status:be886feab3f8b7561edbd21a0d4f433aad0bf9fb
   container_name: gcp-status
   expose:
   - "9989" # GCP Status port registered on Prometheus Wiki
