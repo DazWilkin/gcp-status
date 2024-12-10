@@ -114,3 +114,21 @@ gcp-exporter:
 <hr/>
 <br/>
 <a href="https://www.buymeacoffee.com/dazwilkin" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+### [Sigstore](https://www.sigstore.dev/)
+
+`gcp-status` container images are being signed by Sigstore and may be verified:
+
+```bash
+cosign verify \
+--key=./cosign.pub \
+ghcr.io/dazwilkin/gcp-status:1234567890123456789012345678901234567890
+```
+
+NOTE `cosign.pub` may be downloaded [here](./cosign.pub)
+
+To install cosign, e.g.:
+
+```bash
+go install github.com/sigstore/cosign/cmd/cosign@latest
+```
