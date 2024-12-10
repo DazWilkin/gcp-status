@@ -30,7 +30,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     -o /go/bin/${PROJECT} \
     .
 
-FROM --platform=${TARGETARCH} gcr.io/distroless/debian12-static:latest
+FROM --platform=${TARGETARCH} gcr.io/distroless/static-debian12:latest
 
 ARG PROJECT
 
