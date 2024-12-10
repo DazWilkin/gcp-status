@@ -8,10 +8,7 @@ ARG TARGETARCH
 ARG VERSION
 ARG COMMIT
 
-FROM docker.io/golang:${GOLANG_VERSION} as build
-
-ARG VERSION
-ARG COMMIT
+FROM --platform=${TARGETARCH} docker.io/golang:${GOLANG_VERSION} AS build
 
 ARG PROJECT
 
@@ -20,18 +17,24 @@ WORKDIR /${PROJECT}
 COPY go.* ./
 COPY *.go .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+ARG TARGETOS
+ARG TARGETARCH
+
+ARG VERSION
+ARG COMMIT
+
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     go build \
     -ldflags "-X main.OSVersion=${VERSION} -X main.GitCommit=${COMMIT}" \
     -a -installsuffix cgo \
     -o /go/bin/${PROJECT} \
     .
 
-FROM gcr.io/distroless/static
+FROM --platform=${TARGETARCH} gcr.io/distroless/debian12-static:latest
 
 ARG PROJECT
 
-LABEL org.opencontainers.image.source https://github.com/DazWilkin/gcp-status
+LABEL org.opencontainers.image.source=https://github.com/DazWilkin/gcp-status
 
 COPY --from=build /go/bin/${PROJECT} /exporter
 
