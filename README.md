@@ -94,7 +94,7 @@ go run .
 ```bash
 docker run \
 --interactive --tty --rm \
-ghcr.io/dazwilkin/gcp-status:966272c1e7cd9ad8e9bda1d7a62ac5124b9c8aa0 \
+ghcr.io/dazwilkin/gcp-status:8017eca4067f42c2d3bf326b34fb33c4f57f9009 \
 --endpoint=:9989 \
 --path=/metrics
 ```
@@ -103,7 +103,7 @@ ghcr.io/dazwilkin/gcp-status:966272c1e7cd9ad8e9bda1d7a62ac5124b9c8aa0 \
 
 ```YAML
 gcp-exporter:
-  image: ghcr.io/dazwilkin/gcp-status:966272c1e7cd9ad8e9bda1d7a62ac5124b9c8aa0
+  image: ghcr.io/dazwilkin/gcp-status:8017eca4067f42c2d3bf326b34fb33c4f57f9009
   container_name: gcp-status
   expose:
   - "9989" # GCP Status port registered on Prometheus Wiki
@@ -118,7 +118,7 @@ gcp-exporter:
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/gcp-status:966272c1e7cd9ad8e9bda1d7a62ac5124b9c8aa0
+ghcr.io/dazwilkin/gcp-status:8017eca4067f42c2d3bf326b34fb33c4f57f9009
 ```
 
 NOTE `cosign.pub` may be downloaded [here](./cosign.pub)
