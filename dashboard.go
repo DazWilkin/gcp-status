@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"golang.org/x/net/html"
@@ -20,7 +21,11 @@ func (d Dashboard) Open() (*html.Node, error) {
 	if err != nil {
 		return &html.Node{}, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Printf("unable to close response body: %v", err)
+		}
+	}()
 
 	node, err := html.Parse(resp.Body)
 	return node, err
