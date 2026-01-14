@@ -2,3 +2,5 @@
 alertmanager.yml
 kubernetes.alerting.yaml
 
+# Sigstore key
+cosign.key
